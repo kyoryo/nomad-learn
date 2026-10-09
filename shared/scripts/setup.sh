@@ -68,6 +68,9 @@ sudo apt-get update
 sudo apt-get install -y openjdk-8-jdk
 JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
 
+# AWS ECR credential helper
+sudo apt-get update
+sudo apt-get install -y amazon-ecr-credential-helper
 
 # Install HashiCorp Apt Repository
 wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg

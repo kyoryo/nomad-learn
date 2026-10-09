@@ -56,6 +56,7 @@ if [[ `wget -S --spider $NOMAD_BINARY  2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
 fi
 
 sudo cp $CONFIGDIR/nomad_client.hcl $NOMADCONFIGDIR/nomad.hcl
+sudo cp $CONFIGDIR/nomad-docker-auth.json /etc/nomad-docker-auth.json
 
 # Install and link CNI Plugins to support Consul Connect-Enabled jobs
 sudo apt install -y containernetworking-plugins

@@ -11,6 +11,14 @@ client {
   }
 }
 
+plugin "docker" {
+  config {
+    auth {
+      config = "/etc/nomad-docker-auth.json"
+    }
+  }
+}
+
 acl {
   enabled = true
 }

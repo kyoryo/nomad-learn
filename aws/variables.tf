@@ -47,7 +47,14 @@ variable "root_block_device_size" {
   default     = 16
 }
 
+variable "ecr_repository_arns" {
+  description = "ARNs of the ECR repositories the instances are allowed to pull images from."
+  type        = list(string)
+  default     = ["*", "arn:aws:ecr:ap-southeast-1:536697254907:repository/healthapp"]
+}
+
 variable "nomad_binary" {
   description = "URL of a zip file containing a nomad executable to replace the Nomad binaries in the AMI with. Example: https://releases.hashicorp.com/nomad/0.10.0/nomad_0.10.0_linux_amd64.zip"
   default     = ""
 }
+

@@ -12,18 +12,18 @@ resource "aws_security_group" "consul_nomad_ui_ingress" {
 
   # Nomad
   ingress {
-    from_port       = 4646
-    to_port         = 4646
-    protocol        = "tcp"
-    cidr_blocks     = [var.allowlist_ip]
+    from_port   = 4646
+    to_port     = 4646
+    protocol    = "tcp"
+    cidr_blocks = [var.allowlist_ip]
   }
 
   # Consul
   ingress {
-    from_port       = 8500
-    to_port         = 8500
-    protocol        = "tcp"
-    cidr_blocks     = [var.allowlist_ip]
+    from_port   = 8500
+    to_port     = 8500
+    protocol    = "tcp"
+    cidr_blocks = [var.allowlist_ip]
   }
 
   ingress {
@@ -273,5 +273,32 @@ data "aws_iam_policy_document" "auto_discover_cluster" {
     ]
 
     resources = ["*"]
+  }
+}
+
+resource "aws_iam_role_policy" "ecr_pull" {
+  name   = "${var.name_prefix}-ecr-pull"
+  role   = aws_iam_role.instance_role.id
+  policy = data.aws_iam_policy_document.ecr_pull.json
+}
+
+data "aws_iam_policy_document" "ecr_pull" {
+  # GetAuthorizationToken is account-wide and cannot be scoped to a repository
+  statement {
+    effect    = "Allow"
+    actions   = ["ecr:GetAuthorizationToken"]
+    resources = ["*"]
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:BatchGetImage",
+    ]
+
+    resources = var.ecr_repository_arns
   }
 }
